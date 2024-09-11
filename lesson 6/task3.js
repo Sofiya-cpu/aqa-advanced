@@ -7,5 +7,9 @@ function checkOrder(available, ordered) {
         return "Your order is accepted.";
     }
 }
+/* or instead of the last 'else if' 
+} else {
+    return "Your order is accepted";
+*/
 
-console.log(checkOrder(100, 111));
+console.log(checkOrder(100, 2));
