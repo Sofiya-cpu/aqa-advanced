@@ -1,25 +1,48 @@
 function divide(numerator, denominator) {
-    try {
-        if (denominator == 0) {
-            console.log("Not allowed to divide by 0.");
-            return;
-
-        } else if (typeof numerator !== 'number' || typeof denominator !== 'number') {
-            console.log("Enter a number, plase.");
-            return;
-        }
-
-        console.log(numerator / denominator);
-
-    } catch (error) {
-        console.error(error);
-    } finally {
-        console.log("The work is done.");
+    if (denominator == 0) {
+        throw Error("Not allowed to divide by 0.")
+    } else if (typeof numerator !== 'number' || typeof denominator !== 'number') {
+        throw Error("A numbder should be entered.");
     }
+    console.log(numerator / denominator);
 }
 
-divide(10, 2);
-divide(15, 0);
-divide('a', 6);
-divide(3, 'b');
-divide('abra', 'kadabra');
+try {
+    divide(10, 2);
+} catch (error) {
+    console.error('An error occurred: ', error.message);
+} finally {
+    console.log('The work is done.');
+}
+
+try {
+    divide(15, 0);
+} catch (error) {
+    console.error('An error occurred: ', error.message);
+} finally {
+    console.log('The work is done.');
+}
+
+try {
+    divide('a', 6);
+} catch (error) {
+    console.error('An error occurred: ', error.message);
+} finally {
+    console.log('The work is done.');
+}
+
+try {
+    divide(3, 'b');
+} catch (error) {
+    console.error('An error occurred: ', error.message);
+} finally {
+    console.log('The work is done.');
+}
+
+try {
+    console.log(divide('abra', 'kadabra'));
+} catch (error) {
+    console.error(error.message);
+} finally {
+    console.log("The work is done.");
+}
