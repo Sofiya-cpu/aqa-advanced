@@ -2,9 +2,9 @@ function divide(numerator, denominator) {
     if (denominator == 0) {
         throw Error("Not allowed to divide by 0.")
     } else if (typeof numerator !== 'number' || typeof denominator !== 'number') {
-        throw Error("A numbder should be entered.");
+        throw Error("A number should be entered.");
     }
-    console.log(numerator / denominator);
+    return numerator / denominator;
 }
 
 try {
