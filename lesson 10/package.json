@@ -1,0 +1,29 @@
+{
+    "name": "aqa-advanced",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "intro to JS and node.js",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start:ebook": "node 'lesson 10/ebook.js'",
+        "start:book": "node 'lesson 10/book.js'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Sofiya-cpu/aqa-advanced.git"
+    },
+    "keywords": [
+        "intro"
+    ],
+    "author": "Sofiya Firman",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Sofiya-cpu/aqa-advanced/issues"
+    },
+    "homepage": "https://github.com/Sofiya-cpu/aqa-advanced#readme",
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "mathjs": "^13.1.1"
+    }
+}
