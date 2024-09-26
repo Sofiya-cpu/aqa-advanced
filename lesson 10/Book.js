@@ -49,7 +49,7 @@ class Book {
     }
 
     printInfo() {
-        console.log(`Book title is ${this.title}, its author is ${this.author}. The book was released in ${this.year}.`);
+        console.log(`Book title is ${this._title}, its author is ${this._author}. The book was released in ${this.year}.`);
     }
 
     // Static method
