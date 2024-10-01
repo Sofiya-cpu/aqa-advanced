@@ -1,0 +1,25 @@
+{
+  "name": "code-quality-tools",
+  "version": "1.0.0",
+  "description": "test what tools even exist",
+  "main": "prettier",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier ./src --check",
+    "prettier_fix": "prettier ./src --write",
+    "prepare": "husky",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "tools",
+    "prettier",
+    "quality"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.11.1",
+    "husky": "^9.1.6",
+    "prettier": "3.3.3"
+  }
+}
