@@ -1,0 +1,9 @@
+"off" або 0 - вимкнути правило off
+"warn" або 1 - увімкнути правило як попередження (не впливає на код виходу) warn
+"error" або 2 - увімкнути правило як помилку (код виходу буде 1) error
+
+! Since we made changes to package.json, now we can run this:
+npm run lint
+npm run lint:fix
+
+! off/warn/error https://eslint.org/docs/latest/rules/

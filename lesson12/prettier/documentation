@@ -1,0 +1,12 @@
+npx prettier ./prettier/testcode.js --check
+npx prettier ./prettier/testcode.js --write
+
+! Since we made changes to package.json, now we can run this:
+npm run prettier
+npm run prettier:fix
+
+! For example, to target all JavaScript files in the current directory, you could use:
+npx prettier "\*.js" --write
+
+! Or, to target all JavaScript files in the project, you can use:
+npx prettier "\*_/_.js" --write
