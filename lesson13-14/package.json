@@ -1,9 +1,12 @@
 {
-  "name": "lesson13",
+  "name": "lesson13-14",
   "version": "1.0.0",
   "main": "apiCode.js",
   "scripts": {
-    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest"
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest",
+    "lint": "eslint",
+    "lint:fix": "npm run lint -- --fix",
+    "jestinit": "jest --init"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +17,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.25.7",
     "@babel/register": "^7.25.7",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "jest-html-reporters": "^3.1.7"
   }
 }

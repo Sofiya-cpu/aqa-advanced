@@ -1,1 +1,4 @@
 /node_modules
+/ jest_html_reporters.html
+/ jest_html_reporters-attach
+/ coverage
