@@ -8,7 +8,9 @@
     "test": "jest",
     "lint": "eslint --config ./lesson12/eslint/eslint.config.mjs .",
     "lint:fix": "eslint --config ./lesson12/eslint/eslint.config.mjs .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "repository": {
     "type": "git",
