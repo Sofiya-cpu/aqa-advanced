@@ -2,8 +2,11 @@ import LoginDetails from "./loginDetails.js";
 import MainPage from "./mainPage.js";
 
 describe("Test suite for header&footer buttons", () => {
+  let loginDetails;
+  before(() => {
+    loginDetails = new LoginDetails();
+  });
   beforeEach(() => {
-    const loginDetails = new LoginDetails();
     loginDetails.navigateToMainPageWithLogin();
   });
 
