@@ -29,7 +29,7 @@ class MainPage {
     return cy.get("span.socials_icon.icon.icon-youtube");
   }
   socialsInstagram() {
-    return cy.get("socials_icon.icon.icon-instagram");
+    return cy.get("span.socials_icon.icon.icon-instagram");
   }
   socialsLinkedin() {
     return cy.get("span.socials_icon.icon.icon-linkedin");
