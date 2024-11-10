@@ -1,4 +1,7 @@
 /node_modules
-/ jest_html_reporters.html
-/ jest_html_reporters-attach
+/jest_html_reporters.html
+/jest_html_reporters-attach
 / coverage
+/lcov-report
+/cypress.config.js
+/cypress
