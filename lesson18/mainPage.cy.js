@@ -4,7 +4,7 @@ class MainPage {
   }
 
   aboutButton() {
-    return cy.get("button[appscrollto = 'aboutSection']");
+    return cy.get("button[appscrollto='aboutSection']");
   }
 
   contactsButton() {

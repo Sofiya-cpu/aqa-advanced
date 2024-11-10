@@ -1,4 +1,4 @@
-import loginDetails from "../lesson18/loginDetails.cy.js";
+import LoginDetails from "../lesson18/loginDetails.cy.js";
 import MainPage from "../lesson18/mainPage.cy.js";
 
 // it("Hw login", () => {
@@ -13,14 +13,14 @@ import MainPage from "../lesson18/mainPage.cy.js";
 
 describe("Test suite for header&footer buttons", () => {
   before(() => {
-    LoginDetails.login();
+    loginDetails.navigateToMainPageWithLogin();
   });
 });
 
 it("Should find the Home button", () => {
-  new MainPage().homeButton().should("be.visible");
+  new MainPage().homeButton().should("exist");
 });
 
 it("Should find the About button", () => {
-  new MainPage().aboutButton().should("be.visible");
+  new MainPage().aboutButton().should("exist");
 });

@@ -1,18 +1,12 @@
-const LoginDetails = {
-  username: "guest",
-  password: "welcome2qauto",
-};
+class LoginDetails {
+  defaultCredentials = {
+    username: "guest",
+    password: "welcome2qauto",
+  };
 
-describe("Login details", () => {
-  it("Homework navigation", () => {
-    cy.visit("https://qauto.forstudy.space/", {
-      auth: {
-        username: LoginDetails.username,
-        password: LoginDetails.password,
-      },
-    });
-    cy.log("test");
-  });
-});
-
+  navigateToMainPageWithLogin(credentials = this.defaultCredentials) {
+    cy.visit("https://qauto.forstudy.space/", { auth: credentials });
+  }
+}
+const loginDetails = new LoginDetails();
 export default LoginDetails;
