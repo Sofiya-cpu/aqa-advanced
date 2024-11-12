@@ -1,60 +1,64 @@
 import LoginDetails from "./loginDetails.js";
 import MainPage from "./mainPage.js";
 
+let loginDetails;
+let mainPage;
+
 describe("Test suite for header&footer buttons", () => {
-  let loginDetails;
   before(() => {
     loginDetails = new LoginDetails();
+    mainPage = new MainPage(); // instances
   });
+
   beforeEach(() => {
     loginDetails.navigateToMainPageWithLogin();
   });
 
   it("Should find the Home button", () => {
-    new MainPage().homeButton().should("exist");
+    mainPage.homeButton().should("exist");
   });
 
   it("Should find the About button", () => {
-    new MainPage().aboutButton().should("exist");
+    mainPage.aboutButton().should("exist");
   });
 
   it("Should find the Contacts button", () => {
-    new MainPage().contactsButton().should("exist");
+    mainPage.contactsButton().should("exist");
   });
 
   it("Should find login for guests", () => {
-    new MainPage().guestLogIn().should("exist");
+    mainPage.guestLogIn().should("exist");
   });
 
   it("Should find Signin button", () => {
-    new MainPage().signInButton().should("exist");
+    mainPage.signInButton().should("exist");
   });
 
   it("Should find Facebook button", () => {
-    new MainPage().socialsFacebook().should("exist");
+    mainPage.socialsFacebook().should("exist");
   });
 
   it("Should find Telegram button", () => {
-    new MainPage().socialsTelegram().should("exist");
+    mainPage.socialsTelegram().should("exist");
   });
 
   it("Should find Youtube button", () => {
-    new MainPage().socialsYoutube().should("exist");
+    mainPage.socialsYoutube().should("exist");
   });
 
   it("Should find Instagram button", () => {
-    new MainPage().socialsInstagram().should("exist");
+    mainPage.socialsInstagram().should("exist");
   });
 
   it("Should find LinkedIn button", () => {
-    new MainPage().socialsLinkedin().should("exist");
+    mainPage.socialsLinkedin().should("exist");
   });
 
   it("Should find Hillel button", () => {
-    new MainPage().hillelWebsite().should("exist");
+    mainPage.hillelWebsite().should("exist");
   });
 
   it("Should find 'Mail to Hillel' button", () => {
-    new MainPage().hillelMailTo().should("exist");
+    mainPage.hillelMailTo().should("exist");
   });
 });
