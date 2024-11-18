@@ -1,32 +1,28 @@
-import LoginDetails from "../lesson18/loginDetails.js";
-import { Qautologin, annoyingLogin } from "./config_qauto.js";
-import { Qautologin2, annoyingLogin2 } from "../lesson20/config_qauto2.js";
+import SignUp from "../lesson20/signUp.js";
 import GaragePage from "../lesson20/garage.js";
 import { expensesPage } from "../lesson20/expenses.js";
 
-let loginDetails;
+let signUpInstance;
 const garagePageInstance = new GaragePage();
 
 describe("Qauto login", () => {
   before(() => {
-    loginDetails = new LoginDetails();
+    signUpInstance = new SignUp();
   });
 
   beforeEach(() => {
-    loginDetails.navigateToMainPageWithLogin();
+    signUpInstance.signIn();
   });
 
   it("Add a car", () => {
     garagePageInstance.selectors.addCarButton().click();
     garagePageInstance.addCar("Audi", "R8", "12");
-    garagePageInstance.selectors.addCarConfirm().click();
+    cy.url().should("include", "/panel/garage");
   });
 
-  it("Add expenses", () => {
-    expensesPage.selectors.optionMenu().click();
+  it("Add fuel expenses", () => {
+    expensesPage.visit();
     expensesPage.addExpense();
-    expensesPage.addLiters();
-    expensesPage.addCost();
-    expensesPage.addData();
+    cy.contains("Expense added successfully").should("be.visible");
   });
 });
