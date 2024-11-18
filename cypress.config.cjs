@@ -36,25 +36,22 @@ module.exports = {
   e2e: {
     specPattern: "lesson20/**/*.{js,jsx,ts,tsx,cy.js}",
     setupNodeEvents(on, config) {
-      // Add image snapshot plugin
       addMatchImageSnapshotPlugin(on);
 
-      // Log task for debugging purposes
       on("task", {
         log(message) {
           console.log(message);
           return null;
+          return config;
         },
       });
 
-      // Get the config file from the environment variable, default to 'dev' if not set
-      const configFile = config.env.configFile || "dev"; // 'dev' as default environment
+      const configFile = config.env.configFile || "dev";
+      //const configFile = config.env.configFile || "prod";
 
-      // Load the configuration from the corresponding file
       const configJson = getConfigurationByFile(configFile);
       console.log("Loaded configuration:", configJson);
 
-      // Merge the configuration with the existing Cypress config
       return { ...config, ...configJson };
     },
   },
