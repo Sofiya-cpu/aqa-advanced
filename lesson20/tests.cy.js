@@ -21,12 +21,14 @@ describe("Qauto login", () => {
   it("Add a car", () => {
     garagePageInstance.selectors.addCarButton().click();
     garagePageInstance.addCar("Audi", "R8", "12");
-    cy.url().should("include", "/panel/garage");
+    garagePageInstance.selectors.addCarConfirm().click();
   });
 
-  it("Add fuel expenses", () => {
-    expensesPage.visit();
+  it("Add expenses", () => {
+    expensesPage.selectors.optionMenu().click();
     expensesPage.addExpense();
-    cy.contains("Expense added successfully").should("be.visible");
+    expensesPage.addLiters();
+    expensesPage.addCost();
+    expensesPage.addData();
   });
 });
