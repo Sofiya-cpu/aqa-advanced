@@ -1,9 +1,0 @@
-{
-  "baseUrl": "https://qauto2.forstudy.space",
-  "e2e": {
-    "env": {
-      "userEmail": "sovka100_1@ukr.net",
-      "userPassword": "Mghxyrm123"
-    }
-  }
-}

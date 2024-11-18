@@ -1,21 +1,18 @@
 import LoginDetails from "../lesson18/loginDetails.js";
-import SignUp from "../lesson20/signUp.js";
-import GaragePage from "../lesson20/garage.js";
+import GaragePage from "/lesson20/garage.js";
 import { expensesPage } from "../lesson20/expenses.js";
 
 let loginDetails;
-let signUpInstance;
-signUpInstance = new SignUp();
-const garagePageInstance = new GaragePage();
+let garagePageInstance;
 
 describe("Qauto login", () => {
   before(() => {
     loginDetails = new LoginDetails();
+    garagePageInstance = new GaragePage();
   });
 
   beforeEach(() => {
     loginDetails.navigateToMainPageWithLogin();
-    signUpInstance.signIn();
   });
 
   it("Add a car", () => {
