@@ -1,13 +1,6 @@
 {
-  "reporter": "mochawesome",
-  "reporterOptions": {
-    "reportDir": "cypress/reports",
-    "overwrite": false,
-    "html": false,
-    "json": true
-  },
+  "baseUrl": "https://qauto2.forstudy.space",
   "e2e": {
-    "baseUrl": "https://qauto2.forstudy.space",
     "env": {
       "userEmail": "sovka100_1@ukr.net",
       "userPassword": "Mghxyrm123"

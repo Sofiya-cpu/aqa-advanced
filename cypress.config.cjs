@@ -16,9 +16,9 @@ function getConfigurationByFile(file) {
 }
 
 module.exports = {
-  reporter: "mochawesome",
+  reporter: "mochawesome", // Вказуємо репортер на рівні кореня
   reporterOptions: {
-    reportDir: "cypress/reports",
+    reportDir: "cypress/reports", // Вказуємо директорію для звітів
     overwrite: false,
     html: false,
     json: true,
@@ -38,20 +38,20 @@ module.exports = {
     setupNodeEvents(on, config) {
       addMatchImageSnapshotPlugin(on);
 
+      // Додаємо додаткові налаштування для задач
       on("task", {
         log(message) {
           console.log(message);
           return null;
-          return config;
         },
       });
 
-      const configFile = config.env.configFile || "dev";
-      //const configFile = config.env.configFile || "prod";
-
+      // Отримуємо конфігурацію на основі середовища
+      const configFile = config.env.configFile || "dev"; // 'dev' як дефолтне середовище
       const configJson = getConfigurationByFile(configFile);
       console.log("Loaded configuration:", configJson);
 
+      // Об'єднуємо конфігурацію з існуючими налаштуваннями
       return { ...config, ...configJson };
     },
   },
