@@ -21,5 +21,3 @@ class GaragePage {
 }
 
 export default GaragePage;
-
-//comm

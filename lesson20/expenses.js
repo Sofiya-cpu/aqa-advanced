@@ -20,5 +20,3 @@ class ExpensesPage {
 }
 
 export const expensesPage = new ExpensesPage();
-
-//comm

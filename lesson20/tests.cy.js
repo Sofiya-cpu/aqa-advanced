@@ -3,14 +3,14 @@ import SignUp from "../lesson20/signUp.js";
 import GaragePage from "../lesson20/garage.js";
 import { expensesPage } from "../lesson20/expenses.js";
 
-let signUpInstance;
-const garagePageInstance = new GaragePage();
 let loginDetails;
+let signUpInstance;
+signUpInstance = new SignUp();
+const garagePageInstance = new GaragePage();
 
 describe("Qauto login", () => {
   before(() => {
     loginDetails = new LoginDetails();
-    signUpInstance = new SignUp();
   });
 
   beforeEach(() => {
