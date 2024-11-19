@@ -9,14 +9,14 @@ class GaragePage {
     selectModel: (model) => cy.get("#addCarModel").select(model),
     addMileage: (mileage) => cy.get("#addCarMileage").type(mileage),
     addCarConfirm: () =>
-      cy.get("button.btn.btn-primary[_ngcontent-abt-c83]").click(),
+      cy.get("button[type='button'].btn.btn-primary").click(),
   };
 
   addCar(brand, model, mileage) {
     this.selectors.selectBrand(brand);
     this.selectors.selectModel(model);
     this.selectors.addMileage(mileage);
-    this.selectors.addCarConfirm().click();
+    //this.selectors.addCarConfirm().click();
   }
 }
 

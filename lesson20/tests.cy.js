@@ -1,18 +1,31 @@
-import LoginDetails from "../lesson18/loginDetails.js";
+import prodConfig from "../cypress/config/prod.json";
+import devConfig from "../cypress/config/dev.json";
+import LoginDetails from "/lesson20/loginDetails.js";
 import GaragePage from "/lesson20/garage.js";
-import { expensesPage } from "../lesson20/expenses.js";
+import ExpensesPage from "/lesson20/expenses.js";
 
-let loginDetails;
+const environment = Cypress.env("configFile") || "prod"; // prod or dev
+const config = environment === "prod" ? prodConfig : devConfig;
+const { baseUrl, env } = config;
+
 let garagePageInstance;
+let expensesPageInstance;
+let loginDetails;
+garagePageInstance = new GaragePage();
+expensesPageInstance = new ExpensesPage();
 
 describe("Qauto login", () => {
   before(() => {
     loginDetails = new LoginDetails();
-    garagePageInstance = new GaragePage();
   });
 
   beforeEach(() => {
     loginDetails.navigateToMainPageWithLogin();
+    //cy.visit(baseUrl);
+    cy.get("button[class='btn btn-outline-white header_signin']").click();
+    cy.get("#signinEmail").type(env.userEmail);
+    cy.get("#signinPassword").type(env.userPassword);
+    cy.get("button[class='btn btn-primary']").click();
   });
 
   it("Add a car", () => {
@@ -22,10 +35,12 @@ describe("Qauto login", () => {
   });
 
   it("Add expenses", () => {
-    expensesPage.selectors.optionMenu().click();
-    expensesPage.addExpense();
-    expensesPage.selectors.addLiters();
-    expensesPage.selectors.addCost();
-    // expensesPage.selectors.addData();
+    expensesPageInstance.selectors.optionMenu().click();
+    expensesPageInstance.selectors.addExpense().click();
+    expensesPageInstance.selectors.deleteMileage().clear();
+    expensesPageInstance.selectors.changeMileage("2000");
+    expensesPageInstance.selectors.addLiters("20");
+    expensesPageInstance.selectors.addCost("45000");
+    expensesPageInstance.selectors.confirmAddExpense().click();
   });
 });
