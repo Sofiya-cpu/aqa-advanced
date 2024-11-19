@@ -11,8 +11,8 @@
     "prepare": "husky",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypressopen:qauto": "cypress open --config-file ./cypress/config/dev.json",
-    "cypressopen:qauto2": "cypress open --config-file ./cypress/config/prod.json",
+    "cypressopen:qauto": "cypress open --env configFile=prod",
+    "cypressopen:qauto2": "cypress open --env configFile=dev",
     "mocha:report": "npx mochawesome-merge \\'cypress/results/*.json\\' > mochawesome.json && npx marge mochawesome.json"
   },
   "repository": {
