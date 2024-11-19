@@ -1,13 +1,13 @@
-const {
+import { defineConfig } from "cypress";
+import {
   addMatchImageSnapshotPlugin,
-} = require("@simonsmith/cypress-image-snapshot/plugin");
-const fs = require("fs-extra");
-const path = require("path");
+} from "@simonsmith/cypress-image-snapshot/plugin.js";
+import fs from "fs-extra";
+import * as  path from "path";
 
 // Function to get configuration based on the environment
 function getConfigurationByFile(file) {
   const pathToConfigFile = path.resolve(
-    __dirname,
     "cypress",
     "config",
     `${file}.json`
@@ -15,7 +15,7 @@ function getConfigurationByFile(file) {
   return fs.readJsonSync(pathToConfigFile);
 }
 
-module.exports = {
+export default defineConfig({
   reporter: "mochawesome",
   reporterOptions: {
     reportDir: "cypress/reports",
@@ -34,7 +34,7 @@ module.exports = {
   chromeWebSecurity: false,
 
   e2e: {
-    specPattern: "lesson20/**/*.{js,jsx,ts,tsx,cy.js}",
+    specPattern: "lesson20/**/*.cy.{js,jsx,ts,tsx,cy.js}",
     setupNodeEvents(on, config) {
       addMatchImageSnapshotPlugin(on);
 
@@ -52,4 +52,4 @@ module.exports = {
       return { ...config, ...configJson };
     },
   },
-};
+})

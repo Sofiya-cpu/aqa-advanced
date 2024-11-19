@@ -3,4 +3,5 @@
 /jest_html_reporters-attach
 / coverage
 /lcov-report
-/cypress.config.js
+jest_html_reporters.html
+jest-html-reporters-attach

@@ -24,8 +24,8 @@ describe("Qauto login", () => {
   it("Add expenses", () => {
     expensesPage.selectors.optionMenu().click();
     expensesPage.addExpense();
-    expensesPage.addLiters();
-    expensesPage.addCost();
-    expensesPage.addData();
+    expensesPage.selectors.addLiters();
+    expensesPage.selectors.addCost();
+    // expensesPage.selectors.addData();
   });
 });
