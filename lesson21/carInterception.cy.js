@@ -16,13 +16,8 @@ describe("New car created and validated", () => {
     }).then((response) => {
       expect(response.status).to.equal(200);
 
-      cy.getCookie("sid")
-        .should("exist")
-        .then((cookie) => {
-          const sid = cookie.value;
-          cy.log(`Session ID: ${sid}`);
-          cy.setCookie("sid", sid);
-        });
+      const token = response.body.token;
+      localStorage.setItem("sid", token);
     });
   });
 
