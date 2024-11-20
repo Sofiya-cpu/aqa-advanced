@@ -1,17 +1,11 @@
 import { defineConfig } from "cypress";
-import {
-  addMatchImageSnapshotPlugin,
-} from "@simonsmith/cypress-image-snapshot/plugin.js";
+import { addMatchImageSnapshotPlugin } from "@simonsmith/cypress-image-snapshot/plugin.js";
 import fs from "fs-extra";
-import * as  path from "path";
+import * as path from "path";
 
 // Function to get configuration based on the environment
 function getConfigurationByFile(file) {
-  const pathToConfigFile = path.resolve(
-    "cypress",
-    "config",
-    `${file}.json`
-  );
+  const pathToConfigFile = path.resolve("cypress", "config", `${file}.json`);
   return fs.readJsonSync(pathToConfigFile);
 }
 
@@ -34,7 +28,7 @@ export default defineConfig({
   chromeWebSecurity: false,
 
   e2e: {
-    specPattern: "lesson20/**/*.cy.{js,jsx,ts,tsx,cy.js}",
+    specPattern: "**/*.{js,jsx,ts,tsx,cy.js,spec.js}",
     setupNodeEvents(on, config) {
       addMatchImageSnapshotPlugin(on);
 
@@ -52,4 +46,4 @@ export default defineConfig({
       return { ...config, ...configJson };
     },
   },
-})
+});
