@@ -41,6 +41,7 @@ Cypress.Commands.overwrite("type", (originalFn, element, text, options) => {
   return originalFn(element, text, options);
 });
 
+// add expenses auto command
 Cypress.Commands.add(
   "createExpense",
   (carId, reportedAt, mileage, liters, totalCost, forceMileage, sidToken) => {

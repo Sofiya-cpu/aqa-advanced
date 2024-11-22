@@ -11,7 +11,7 @@ describe("API testing with Cypress", () => {
   beforeEach(() => {
     loginDetails = new LoginDetails();
 
-    // API LOGIN
+    // API LOGIN !!!!
     cy.request("POST", "https://qauto.forstudy.space/api/auth/signin", {
       email: "sovka@ukr.net",
       password: "Mghxyrm123",
