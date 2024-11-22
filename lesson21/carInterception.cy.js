@@ -1,7 +1,6 @@
 import LoginDetails from "/lesson21/loginDetails.js";
 import GaragePage from "../lesson20/garage.js";
 
-let token;
 let carId;
 let loginDetails;
 let garagePageInstance;
@@ -11,37 +10,19 @@ garagePageInstance = new GaragePage();
 describe("API testing with Cypress", () => {
   beforeEach(() => {
     loginDetails = new LoginDetails();
-    cy.request("POST", "/api/auth/signin", {
+
+    // API LOGIN
+    cy.request("POST", "https://qauto.forstudy.space/api/auth/signin", {
       email: "sovka@ukr.net",
       password: "Mghxyrm123",
     }).then((response) => {
       expect(response.status).to.equal(200);
 
-      token = response.body.token;
-
-      cy.window().then((win) => {
-        win.localStorage.setItem("sid", token); // Store in window.localStorage
-      });
-
-      // Store token in Cypress environment
-      Cypress.env("sidToken", token);
-
-      cy.log("Token stored in env:", token);
-
-      // // Check if token is a valid string before setting the cookie
-      // if (typeof token === "string" && token.length > 0) {
-      //   cy.setCookie("sid", token); // explicitly set the sid cookie if token is valid
-      //   cy.log("SID cookie set");
-      // } else {
-      //   cy.log("Invalid token received, SID cookie not set");
-      // }
-
       loginDetails.navigateToMainPageWithLogin();
     });
   });
 
-  it("New car created, status validated, car ID saved", () => {
-    const token = localStorage.getItem("sid");
+  it("Create a car", () => {
     cy.intercept("POST", "/api/cars").as("newCar");
 
     // UI
@@ -51,33 +32,104 @@ describe("API testing with Cypress", () => {
 
     cy.wait("@newCar").then((interception) => {
       expect(interception.response.statusCode).to.equal(201);
-      carId = interception.response.body.data.id; // get car ID
+      carId = interception.response.body.data.id; // get carId
       cy.log(`Created Car ID: ${carId}`);
+
+      // SAVE TO FIXTURE
+      cy.writeFile("cypress/fixtures/carId.json", { carId });
     });
   });
 
   it("Verify list contains the intercepted car id", () => {
-    const token = localStorage.getItem("sid");
-    cy.request({
-      method: "GET",
-      url: "/api/cars",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((response) => {
-      expect(response.status).to.equal(200);
+    cy.fixture("carId.json").then((data) => {
+      carId = data.carId; //  carId from fixture
 
-      // car Id in the list of cars
-      const carExists = response.body.data.some((car) => car.id === carId);
-      expect(carExists).to.be.true;
+      cy.getCookie("sid").then((cookie) => {
+        const sidToken = cookie.value;
+
+        cy.request({
+          method: "GET",
+          url: "https://qauto.forstudy.space/api/cars",
+          headers: {
+            Cookie: `sid=${sidToken}`, //  SID
+          },
+        }).then((response) => {
+          expect(response.status).to.equal(200);
+
+          const carExists = response.body.data.some((car) => car.id === carId);
+          expect(carExists).to.be.true;
+        });
+      });
     });
   });
 
   it("Verify expense on the car", () => {
-    cy.createExpense(carId, "2021-05-17", 111, 11, 11, false);
-  });
-});
+    cy.fixture("carId.json").then((data) => {
+      carId = data.carId; // taken from fixture
 
-after(() => {
-  cy.writeFile("cypress/fixtures/carId.json", { carId }); // save the ID as fixture
+      cy.getCookie("sid").then((cookie) => {
+        const sidToken = cookie.value;
+
+        // Current date
+        const currentDate = new Date().toISOString().split("T")[0];
+
+        cy.request({
+          method: "POST",
+          url: "https://qauto.forstudy.space/api/expenses",
+          headers: {
+            Cookie: `sid=${sidToken}`,
+            "Content-Type": "application/json",
+          },
+          body: {
+            carId: carId,
+            reportedAt: currentDate,
+            mileage: 111,
+            liters: 11,
+            totalCost: 11,
+            forceMileage: false,
+          },
+        }).then((response) => {
+          expect(response.status).to.equal(200);
+        });
+      });
+    });
+  });
+
+  it("Find the car and verify the expense", () => {
+    const expenseData = {
+      mileage: 111,
+      liters: 11,
+      totalCost: 11,
+      // change date fomat variations
+      reportedAt: new Date().toLocaleDateString("uk-UA", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
+    };
+
+    cy.get(
+      "a.btn.btn-white.btn-sidebar.sidebar_btn[href='/panel/expenses']"
+    ).click();
+
+    cy.get(".panel-page_content", { timeout: 10000 }).should("exist");
+
+    cy.get("td[class='font-weight-bold']").should(
+      "contain.text",
+      expenseData.reportedAt
+    );
+    cy.get("td:nth-child(2):not(.font-weight-bold)").should(
+      "contain.text",
+      expenseData.mileage
+    );
+
+    cy.get("td:nth-child(3):not(.font-weight-bold)").should(
+      "contain.text",
+      expenseData.liters
+    );
+    cy.get("td:nth-child(4):not(.font-weight-bold").should(
+      "contain.text",
+      expenseData.totalCost
+    );
+  });
 });

@@ -41,49 +41,30 @@ Cypress.Commands.overwrite("type", (originalFn, element, text, options) => {
   return originalFn(element, text, options);
 });
 
-Cypress.Commands.add("login", (email, password) => {
-  //cy.visit("https://qauto.forstudy.space/", { failOnStatusCode: false });
-  cy.get("button[class='btn btn-outline-white header_signin']").click();
-  cy.get("#signinEmail").type(email);
-  cy.get("#signinPassword").type(password);
-  cy.get('button[class="btn btn-primary"]').click();
-});
-
 Cypress.Commands.add(
   "createExpense",
-  (carId, reportedAt, mileage, liters, totalCost, forceMileage) => {
-    // Retrieve sid token from localStorage before making the request
-    cy.window().then((win) => {
-      const sidToken = win.localStorage.getItem("sid"); // Retrieve sid from localStorage
-      if (!sidToken) {
-        throw new Error("SID token is not set");
-      }
-
-      // Log token for debugging
-      cy.log("SID token retrieved:", sidToken);
-
-      // Set the sid cookie explicitly for the current request
-      cy.setCookie("sid", sidToken); // Set the sid cookie in Cypress
-
-      // Perform the expense creation request
-      cy.request({
-        method: "POST",
-        url: "/api/expenses",
-        headers: {
-          Cookie: `sid=${sidToken}`, // Pass the sid token in the cookie
-        },
-        body: {
-          carId,
-          reportedAt,
-          mileage,
-          liters,
-          totalCost,
-          forceMileage,
-        },
-      }).then((response) => {
-        expect(response.status).to.equal(201);
-        expect(response.body.carId).to.equal(carId);
-      });
+  (carId, reportedAt, mileage, liters, totalCost, forceMileage, sidToken) => {
+    cy.request({
+      method: "POST",
+      url: "/api/expenses",
+      headers: {
+        Cookie: `sid=${sidToken}`,
+      },
+      body: {
+        carId: carId,
+        reportedAt: reportedAt,
+        mileage: mileage,
+        liters: liters,
+        totalCost: totalCost,
+        forceMileage: forceMileage,
+      },
+    }).then((response) => {
+      expect(response.status).to.equal(200);
+      expect(response.body.carId).to.equal(carId);
+      expect(response.body.mileage).to.equal(mileage);
+      expect(response.body.liters).to.equal(liters);
+      expect(response.body.totalCost).to.equal(totalCost);
+      expect(response.body.forceMileage).to.equal(forceMileage);
     });
   }
 );
