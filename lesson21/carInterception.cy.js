@@ -18,8 +18,24 @@ describe("API testing with Cypress", () => {
       expect(response.status).to.equal(200);
 
       token = response.body.token;
-      localStorage.setItem("sid", token); // store
-      cy.log("Token stored:", token); // log
+
+      cy.window().then((win) => {
+        win.localStorage.setItem("sid", token); // Store in window.localStorage
+      });
+
+      // Store token in Cypress environment
+      Cypress.env("sidToken", token);
+
+      cy.log("Token stored in env:", token);
+
+      // // Check if token is a valid string before setting the cookie
+      // if (typeof token === "string" && token.length > 0) {
+      //   cy.setCookie("sid", token); // explicitly set the sid cookie if token is valid
+      //   cy.log("SID cookie set");
+      // } else {
+      //   cy.log("Invalid token received, SID cookie not set");
+      // }
+
       loginDetails.navigateToMainPageWithLogin();
     });
   });
@@ -56,10 +72,10 @@ describe("API testing with Cypress", () => {
       expect(carExists).to.be.true;
     });
   });
-});
 
-it("Verify expense on the car", () => {
-  cy.createExpense(carId, "2021-05-17", 111, 11, 11, false);
+  it("Verify expense on the car", () => {
+    cy.createExpense(carId, "2021-05-17", 111, 11, 11, false);
+  });
 });
 
 after(() => {

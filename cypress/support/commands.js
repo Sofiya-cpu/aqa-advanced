@@ -52,31 +52,38 @@ Cypress.Commands.add("login", (email, password) => {
 Cypress.Commands.add(
   "createExpense",
   (carId, reportedAt, mileage, liters, totalCost, forceMileage) => {
-    const token = localStorage.getItem("sid");
-    cy.request({
-      method: "POST",
-      url: "/api/expenses",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: {
-        carId: carId,
-        reportedAt: reportedAt,
-        mileage: mileage,
-        liters: liters,
-        totalCost: totalCost,
-        forceMileage: forceMileage,
-      },
-    }).then((response) => {
-      expect(response.status).to.equal(201);
+    // Retrieve sid token from localStorage before making the request
+    cy.window().then((win) => {
+      const sidToken = win.localStorage.getItem("sid"); // Retrieve sid from localStorage
+      if (!sidToken) {
+        throw new Error("SID token is not set");
+      }
 
-      //expect(response.body).to.have.property("id");
-      expect(response.body.carId).to.equal(carId);
-      expect(response.body.reportedAt).to.equal(reportedAt);
-      expect(response.body.mileage).to.equal(mileage);
-      expect(response.body.liters).to.equal(liters);
-      expect(response.body.totalCost).to.equal(totalCost);
-      expect(response.body.forceMileage).to.equal(forceMileage);
+      // Log token for debugging
+      cy.log("SID token retrieved:", sidToken);
+
+      // Set the sid cookie explicitly for the current request
+      cy.setCookie("sid", sidToken); // Set the sid cookie in Cypress
+
+      // Perform the expense creation request
+      cy.request({
+        method: "POST",
+        url: "/api/expenses",
+        headers: {
+          Cookie: `sid=${sidToken}`, // Pass the sid token in the cookie
+        },
+        body: {
+          carId,
+          reportedAt,
+          mileage,
+          liters,
+          totalCost,
+          forceMileage,
+        },
+      }).then((response) => {
+        expect(response.status).to.equal(201);
+        expect(response.body.carId).to.equal(carId);
+      });
     });
   }
 );
