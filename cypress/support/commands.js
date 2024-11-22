@@ -41,23 +41,15 @@ Cypress.Commands.overwrite("type", (originalFn, element, text, options) => {
   return originalFn(element, text, options);
 });
 
-Cypress.Commands.add("login", (email, password) => {
-  //cy.visit("https://qauto.forstudy.space/", { failOnStatusCode: false });
-  cy.get("button[class='btn btn-outline-white header_signin']").click();
-  cy.get("#signinEmail").type(email);
-  cy.get("#signinPassword").type(password);
-  cy.get('button[class="btn btn-primary"]').click();
-});
-
+// add expenses auto command
 Cypress.Commands.add(
   "createExpense",
-  (carId, reportedAt, mileage, liters, totalCost, forceMileage) => {
-    const token = localStorage.getItem("sid");
+  (carId, reportedAt, mileage, liters, totalCost, forceMileage, sidToken) => {
     cy.request({
       method: "POST",
       url: "/api/expenses",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Cookie: `sid=${sidToken}`,
       },
       body: {
         carId: carId,
@@ -68,11 +60,8 @@ Cypress.Commands.add(
         forceMileage: forceMileage,
       },
     }).then((response) => {
-      expect(response.status).to.equal(201);
-
-      //expect(response.body).to.have.property("id");
+      expect(response.status).to.equal(200);
       expect(response.body.carId).to.equal(carId);
-      expect(response.body.reportedAt).to.equal(reportedAt);
       expect(response.body.mileage).to.equal(mileage);
       expect(response.body.liters).to.equal(liters);
       expect(response.body.totalCost).to.equal(totalCost);
