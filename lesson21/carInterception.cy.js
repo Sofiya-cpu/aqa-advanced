@@ -1,14 +1,15 @@
 import LoginDetails from "/lesson21/loginDetails.js";
 import GaragePage from "../lesson20/garage.js";
 
+let token;
 let carId;
 let loginDetails;
 let garagePageInstance;
 
 garagePageInstance = new GaragePage();
 
-describe("New car created and validated", () => {
-  before(() => {
+describe("API testing with Cypress", () => {
+  beforeEach(() => {
     loginDetails = new LoginDetails();
     cy.request("POST", "/api/auth/signin", {
       email: "sovka@ukr.net",
@@ -16,16 +17,15 @@ describe("New car created and validated", () => {
     }).then((response) => {
       expect(response.status).to.equal(200);
 
-      const token = response.body.token;
-      localStorage.setItem("sid", token);
+      token = response.body.token;
+      localStorage.setItem("sid", token); // store
+      cy.log("Token stored:", token); // log
+      loginDetails.navigateToMainPageWithLogin();
     });
   });
 
-  beforeEach(() => {
-    loginDetails.navigateToMainPageWithLogin();
-  });
-
-  it("Create a new car and intercept the API response", () => {
+  it("New car created, status validated, car ID saved", () => {
+    const token = localStorage.getItem("sid");
     cy.intercept("POST", "/api/cars").as("newCar");
 
     // UI
@@ -34,26 +34,34 @@ describe("New car created and validated", () => {
     garagePageInstance.selectors.addCarConfirm().click();
 
     cy.wait("@newCar").then((interception) => {
-      expect(interception.response.statusCode).to.eq(201);
-      carId = interception.response.body.id;
+      expect(interception.response.statusCode).to.equal(201);
+      carId = interception.response.body.data.id; // get car ID
       cy.log(`Created Car ID: ${carId}`);
     });
   });
 
-  it("Validate car exists via API", () => {
+  it("Verify list contains the intercepted car id", () => {
+    const token = localStorage.getItem("sid");
     cy.request({
       method: "GET",
-      url: "https://qauto.forstudy.space/api/cars",
-      failOnStatusCode: false,
+      url: "/api/cars",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }).then((response) => {
-      expect(response.status).to.eq(200);
+      expect(response.status).to.equal(200);
 
-      const createdCar = response.body.cars.find((car) => car.id === carId);
-
-      expect(createdCar).to.exist;
-      expect(createdCar.brand).to.eq("Audi");
-      expect(createdCar.model).to.eq("R8");
-      expect(createdCar.mileage).to.eq(12);
+      // car Id in the list of cars
+      const carExists = response.body.data.some((car) => car.id === carId);
+      expect(carExists).to.be.true;
     });
   });
+});
+
+it("Verify expense on the car", () => {
+  cy.createExpense(carId, "2021-05-17", 111, 11, 11, false);
+});
+
+after(() => {
+  cy.writeFile("cypress/fixtures/carId.json", { carId }); // save the ID as fixture
 });

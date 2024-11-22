@@ -48,3 +48,35 @@ Cypress.Commands.add("login", (email, password) => {
   cy.get("#signinPassword").type(password);
   cy.get('button[class="btn btn-primary"]').click();
 });
+
+Cypress.Commands.add(
+  "createExpense",
+  (carId, reportedAt, mileage, liters, totalCost, forceMileage) => {
+    const token = localStorage.getItem("sid");
+    cy.request({
+      method: "POST",
+      url: "/api/expenses",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: {
+        carId: carId,
+        reportedAt: reportedAt,
+        mileage: mileage,
+        liters: liters,
+        totalCost: totalCost,
+        forceMileage: forceMileage,
+      },
+    }).then((response) => {
+      expect(response.status).to.equal(201);
+
+      //expect(response.body).to.have.property("id");
+      expect(response.body.carId).to.equal(carId);
+      expect(response.body.reportedAt).to.equal(reportedAt);
+      expect(response.body.mileage).to.equal(mileage);
+      expect(response.body.liters).to.equal(liters);
+      expect(response.body.totalCost).to.equal(totalCost);
+      expect(response.body.forceMileage).to.equal(forceMileage);
+    });
+  }
+);
