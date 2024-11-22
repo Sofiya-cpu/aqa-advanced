@@ -118,18 +118,9 @@ describe("API testing with Cypress", () => {
       "contain.text",
       expenseData.reportedAt
     );
-    cy.get("td:nth-child(2):not(.font-weight-bold)").should(
-      "contain.text",
-      expenseData.mileage
-    );
+    cy.get("td:nth-child(2)").should("contain.text", expenseData.mileage);
 
-    cy.get("td:nth-child(3):not(.font-weight-bold)").should(
-      "contain.text",
-      expenseData.liters
-    );
-    cy.get("td:nth-child(4):not(.font-weight-bold").should(
-      "contain.text",
-      expenseData.totalCost
-    );
+    cy.get("td:nth-child(3)").should("contain.text", expenseData.liters);
+    cy.get("td:nth-child(4)").should("contain.text", expenseData.totalCost);
   });
 });
