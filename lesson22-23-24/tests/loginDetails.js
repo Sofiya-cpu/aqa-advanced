@@ -5,7 +5,6 @@ class LoginDetails {
   };
 
   async navigateToMainPageWithLogin(page) {
-    // Authorization header for Basic Authentication
     const auth = Buffer.from(
       `${this.defaultCredentials.username}:${this.defaultCredentials.password}`
     ).toString("base64");
@@ -14,7 +13,11 @@ class LoginDetails {
       Authorization: `Basic ${auth}`,
     });
 
-    await page.goto("https://qauto.forstudy.space/");
+    await page.goto("https://qauto.forstudy.space/", {
+      waitUntil: "load",
+      timeout: 60000,
+    });
+    await page.waitForLoadState("networkidle");
   }
 }
 
