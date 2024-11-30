@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "test:all:chrome:headed": "playwright test --headed --project='Google Chrome'"
+  },
   "author": "",
   "license": "ISC",
   "description": "",
