@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default defineConfig({
   testDir: "./tests",
@@ -11,6 +14,11 @@ export default defineConfig({
   use: {
     headless: false,
     trace: "on-first-retry",
+    baseURL: process.env.BASE_URL,
+    httpCredentials: {
+      username: process.env.HTTP_USER,
+      password: process.env.HTTP_PASSWORD,
+    },
   },
   projects: [
     {
