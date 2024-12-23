@@ -38,7 +38,7 @@
     "@eslint/js": "^9.12.0",
     "@simonsmith/cypress-image-snapshot": "^9.1.0",
     "browserify-fs": "^1.0.0",
-    "cypress": "^13.15.2",
+    "cypress": "^9.7.0",
     "cypress-localstorage-commands": "^2.2.6",
     "eslint": "^9.12.0",
     "eslint-plugin-cypress": "^4.1.0",
